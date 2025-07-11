@@ -1,4 +1,4 @@
-FROM container-registry.oracle.com/java/jdk:21
+FROM eclipse-temurin:21-jdk
 
 EXPOSE 8085
 # Copy your app files or JAR

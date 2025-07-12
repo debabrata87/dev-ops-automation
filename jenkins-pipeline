@@ -52,6 +52,7 @@ pipeline{
       
       			bat 'docker login -u debabrata87 -p dckr_pat_HqABOxuZP5XECzZS__T9ADmoCi4'
       			bat 'docker push debabrata87/dev-ops-automation:latest'
+      			bat 'del %USERPROFILE%\\.docker\\config.json'
       
                 //withCredentials([string(credentialsId: 'docker-debabrata87-pwd-v2', variable: 'docker-debabrata87-pwd-v2')]) {
                   //  bat 'docker login -u debabrata87 -p ${docker-debabrata87-pwd-v2}'

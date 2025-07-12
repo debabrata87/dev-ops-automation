@@ -29,6 +29,23 @@ pipeline{
                 bat "docker build -t debabrata87/dev-ops-automation:latest ."
             }
         }
+        
+        stage('Clean Docker Credentials') {
+            steps {
+                bat '''
+                    echo Deleting Docker config to invalidate saved credentials...
+                    if exist "%USERPROFILE%\\.docker\\config.json" (
+                        del "%USERPROFILE%\\.docker\\config.json"
+                        echo Deleted: %USERPROFILE%\\.docker\\config.json
+                    ) else (
+                        echo No config.json found to delete.
+                    )
+                '''
+            }
+        }
+        
+        
+        
          stage('push docker image'){
             steps {
                 echo "Pushing Docker image on Windows agent"

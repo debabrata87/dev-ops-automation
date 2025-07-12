@@ -33,11 +33,25 @@ pipeline{
             steps {
                 echo "Pushing Docker image on Windows agent"
       
-                withCredentials([string(credentialsId: 'docker-debabrata87-pwd-v2', variable: 'docker-debabrata87-pwd-v2')]) {
-                    bat 'docker login -u debabrata87 -p ${docker-debabrata87-pwd-v2}'
-                  bat 'docker push debabrata87/dev-ops-automation:latest'
-                }
+                //withCredentials([string(credentialsId: 'docker-debabrata87-pwd-v2', variable: 'docker-debabrata87-pwd-v2')]) {
+                  //  bat 'docker login -u debabrata87 -p ${docker-debabrata87-pwd-v2}'
+                  //	bat 'docker push debabrata87/dev-ops-automation:latest'
+                //}
            
+           
+           		withCredentials([string(credentialsId: 'dockerhub-token', variable: 'DOCKERHUB_PASSWORD')]) {
+                      
+                     bat """ echo Secret prefix:%DOCKERHUB_PASSWORD:~0,35%**** """
+
+                     bat '''
+                        echo %DOCKERHUB_PASSWORD% > docker_pass.txt
+                        type docker_pass.txt
+                        docker login -u %DOCKERHUB_USERNAME% --password-stdin < docker_pass.txt
+                        del docker_pass.txt
+                    '''
+                     
+                      bat 'docker push debabrata87/dev-ops-automation:latest'
+				}
                
                 
             }

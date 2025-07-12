@@ -33,8 +33,8 @@ pipeline{
             steps {
                 echo "Pushing Docker image on Windows agent"
       
-                withCredentials([string(credentialsId: 'docker-debabrata87-pwd-v2', variable: 'docker-debabrata87-pwd-v2')]) {
-                   bat 'docker login -u debabrata87 -p ${docker-debabrata87-pwd-v2}'
+                withCredentials([string(credentialsId: 'docker-debabrata87-p-v2', variable: 'docker-debabrata87-p-v2')]) {
+                   bat 'docker login -u debabrata87 -p ${docker-debabrata87-p-v2}'
                   bat 'docker push debabrata87/dev-ops-automation:latest'
                 }
                

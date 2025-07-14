@@ -77,6 +77,13 @@ pipeline{
                 
             }
          }
+         stage('deploy docker image on k8s'){
+            steps {
+                echo "Deploying Docker image on Windows Minikube"
+                kubernetesDeploy (configs: 'deploymentservice.yaml',  kubeconfigId: 'k8sconfigpwd')
+                
+            }
+         }
     }
     post {
             success {

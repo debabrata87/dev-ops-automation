@@ -1,43 +1,19 @@
-{{- if .Values.ingress.enabled -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ include "dev-ops-demo-helm-chart.fullname" . }}
-  labels:
-    {{- include "dev-ops-demo-helm-chart.labels" . | nindent 4 }}
-  {{- with .Values.ingress.annotations }}
+  name: microservices-ingress
   annotations:
-    {{- toYaml . | nindent 4 }}
-  {{- end }}
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
-  {{- with .Values.ingress.className }}
-  ingressClassName: {{ . }}
-  {{- end }}
-  {{- if .Values.ingress.tls }}
-  tls:
-    {{- range .Values.ingress.tls }}
-    - hosts:
-        {{- range .hosts }}
-        - {{ . | quote }}
-        {{- end }}
-      secretName: {{ .secretName }}
-    {{- end }}
-  {{- end }}
   rules:
-    {{- range .Values.ingress.hosts }}
-    - host: {{ .host | quote }}
+    - host: my-app.local
       http:
         paths:
-          {{- range .paths }}
-          - path: {{ .path }}
-            {{- with .pathType }}
-            pathType: {{ . }}
-            {{- end }}
+         
+          - path: "/devopsdemo(/|$)(.*)"
+            pathType: ImplementationSpecific
             backend:
               service:
-                name: {{ include "dev-ops-demo-helm-chart.fullname" $ }}
+                name: {{ include "dev-ops-demo-helm-chart.fullname" . }}
                 port:
-                  number: {{ $.Values.service.port }}
-          {{- end }}
-    {{- end }}
-{{- end }}
+                  number: 8080 #Change this to 8085 if container listens there

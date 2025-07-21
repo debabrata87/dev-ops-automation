@@ -5,14 +5,16 @@ import java.util.Date;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/devopsdemo")
 public class FirstController {
 	@GetMapping("/welcome")
 	public String welcome() {
 		System.out.println(System.getProperty("java.version"));
-		return " Hello World , My First Demo for Dev Ops";
+		return " Hello World , My First Demo for Dev Ops, Time : "+ new Date();
 	}
 
 	
